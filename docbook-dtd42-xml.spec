@@ -28,8 +28,8 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define xmlcat_add()			/usr/bin/xmlcatalog --noout --add nextCatalog "" %1 /etc/xml/catalog
 %define xmlcat_del()			/usr/bin/xmlcatalog --noout --del %1 /etc/xml/catalog
 %define xmlcat_add_rewrite()	/usr/bin/xmlcatalog --noout --add rewriteSystem %1 %2 %3
-%define sgmlcat_add()			/usr/bin/install-catalog --add %1 %2 > /dev/null
-%define sgmlcat_del()			/usr/bin/install-catalog --remove %1 %2 > /dev/null
+%define sgmlcat_add()			/usr/bin/install-catalog --add %1 /etc/sgml/catalog > /dev/null
+%define sgmlcat_del()			/usr/bin/install-catalog --remove %1 /etc/sgml/catalog > /dev/null
 %define sgmlcat_fix()			echo "OVERRIDE YES" >> %1
 
 %description
@@ -54,8 +54,6 @@ install -d $RPM_BUILD_ROOT%{dtd_path}
 install *.{cat,dtd,mod,xml} $RPM_BUILD_ROOT%{dtd_path}
 cp -a ent $RPM_BUILD_ROOT%{dtd_path}
 
-# install catalog file (nfy - waiting for wiget script)
-#sgmlcat2xmlcat < docbook.cat > %{xmlcat_file}
 %xmlcat_add_rewrite http://www.oasis-open.org/docbook/xml/%{rver} file://%{dtd_path} $RPM_BUILD_ROOT%{xmlcat_file}
 
 %clean
