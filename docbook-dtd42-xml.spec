@@ -1,9 +1,9 @@
 Summary:	Davenport Group DocBook DTD for technical documentation
 Summary(pl):	DocBook DTD przeznaczone do pisania dokumentacji technicznej
-%define rver	4.2CR1
+%define rver	4.2CR2
 %define ver	4.2
 Name:		docbook-dtd42-xml
-Version:	1.0.cr1
+Version:	1.0.cr2
 Release:	2
 Vendor:		OASIS
 License:	Free
