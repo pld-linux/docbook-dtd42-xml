@@ -25,8 +25,7 @@ podrêczników systemowych, instrukcji technicznych jak i wielu innych
 ciekawych rzeczy.
 
 %prep
-%setup -q -c -T
-unzip -qa %{SOURCE0}
+%setup -q -c
 chmod -R a+rX *
 
 %install
@@ -54,10 +53,6 @@ EOF
 #grep -v 'ISO ' docbook.cat >> $RPM_BUILD_ROOT%{_datadir}/sgml/docbook/xml-dtd-%{ver}/catalog
 cat docbook.cat >> $RPM_BUILD_ROOT%{_datadir}/sgml/docbook/xml-dtd-%{ver}/catalog
 
-
-gzip -9nf README
-[ ! -f ChangeLog ] || gzip -9nf ChangeLog
-
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -70,5 +65,5 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc *.gz
+%doc README ChangeLog
 %{_datadir}/sgml/docbook/*
