@@ -1,15 +1,14 @@
 Summary:	XML/SGML DocBook DTD 4.2
 Summary(pl):	XML/SGML DocBook DTD 4.2
-%define rver	4.2CR3
 %define ver	4.2
 Name:		docbook-dtd42-xml
-Version:	1.0.cr3
-Release:	2
+Version:	1.0
+Release:	1
 Vendor:		OASIS
 License:	Free
 Group:		Applications/Publishing/XML
 URL:		http://www.oasis-open.org/docbook/
-Source0:	http://www.oasis-open.org/docbook/xml/%{rver}/docbook-xml-%{rver}.zip
+Source0:	http://www.oasis-open.org/docbook/xml/%{ver}/docbook-xml-%{ver}.zip
 BuildRequires:	unzip
 BuildRequires:	/usr/bin/xmlcatalog
 Requires(post):	/usr/bin/xmlcatalog
@@ -57,7 +56,7 @@ install *.{cat,dtd,mod,xml} $RPM_BUILD_ROOT%{dtd_path}
 cp -a ent $RPM_BUILD_ROOT%{dtd_path}
 
 %xmlcat_add_rewrite \
-	http://www.oasis-open.org/docbook/xml/%{rver} \
+	http://www.oasis-open.org/docbook/xml/%{ver} \
 	file://%{dtd_path} \
 	$RPM_BUILD_ROOT%{xmlcat_file}
 
@@ -67,13 +66,17 @@ rm -rf $RPM_BUILD_ROOT
 %post
 if [ "$1" = "1" ]; then
     %xmlcat_add %{xmlcat_file}
+
     %sgmlcat_add %{sgmlcat_file}
+
 fi
 
 %preun
 if [ "$1" = "0" ]; then
     %xmlcat_del %{xmlcat_file}
+
     %sgmlcat_del %{sgmlcat_file}
+
 fi
 
 %files
