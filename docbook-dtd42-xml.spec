@@ -48,7 +48,7 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{dtd_path}
 
 install *.{xml,dtd,mod} $RPM_BUILD_ROOT%{dtd_path}
-install *.ent $RPM_BUILD_ROOT%{_datadir}/sgml/docbook/xml-dtd-%{ver} || :
+install *.ent $RPM_BUILD_ROOT%{dtd_path} || :
 cp -a ent $RPM_BUILD_ROOT%{dtd_path}
 
 %sgmlcat_fix $RPM_BUILD_ROOT%{sgmlcat_file} %{ver}
@@ -68,8 +68,8 @@ if ! grep -q /etc/sgml/xml-docbook-%{ver}.cat /etc/sgml/catalog ; then
     %sgmlcat_add /etc/sgml/xml-docbook-%{ver}.cat %{sgmlcat_file}
 
 fi
-if ! grep -q %{dtd_path}/catalog.xml /etc/xml/catalog ; then
-    %xmlcat_add %{dtd_path}/catalog.xml
+if ! grep -q %{xmlcat_file} /etc/xml/catalog ; then
+    %xmlcat_add %{xmlcat_file}
 
 fi
 
@@ -77,7 +77,7 @@ fi
 if [ "$1" = "0" ] ; then
     %sgmlcat_del /etc/sgml/xml-docbook-%{ver}.cat %{sgmlcat_file}
 
-    %xmlcat_del %{dtd_path}/catalog.xml
+    %xmlcat_del %{xmlcat_file}
 
 fi
 
