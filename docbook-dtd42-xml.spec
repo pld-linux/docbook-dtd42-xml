@@ -11,6 +11,7 @@ Group:		Applications/Publishing/XML
 URL:		http://www.oasis-open.org/docbook/
 Source0:	http://www.oasis-open.org/docbook/xml/%{rver}/docbook-xml-%{rver}.zip
 BuildRequires:	unzip
+BuildRequires:	/usr/bin/xmlcatalog
 Requires(post):	/usr/bin/xmlcatalog
 Requires(post):	sgml-common >= 0.5
 Requires(preun):/usr/bin/xmlcatalog
