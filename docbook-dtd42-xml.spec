@@ -16,13 +16,13 @@ License:	Free
 Group:		Applications/Publishing/XML
 URL:		http://www.oasis-open.org/docbook/
 Source0:	http://www.oasis-open.org/docbook/xml/%{ver}/docbook-xml-%{ver}.zip
-BuildRequires:  unzip
+BuildRequires:	unzip
 BuildRequires:	rpm-build >= 4.0.2-94
 BuildRequires:	/usr/bin/xmlcatalog
 PreReq:		libxml2
 PreReq:		sgml-common
-Requires(post,preun):   /usr/bin/install-catalog
-Requires(post,preun):   /usr/bin/xmlcatalog
+Requires(post,preun):	/usr/bin/install-catalog
+Requires(post,preun):	/usr/bin/xmlcatalog
 Requires:	libxml2-progs >= 2.4.17-6
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -32,14 +32,15 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define	sgmlcat_file	%{dtd_path}/catalog
 
 %description
-DocBook is an XML/SGML vocabulary particularly well suited to books and papers
-about computer hardware and software (though it is by no means limited to only
-these applications).                 
+DocBook is an XML/SGML vocabulary particularly well suited to books
+and papers about computer hardware and software (though it is by no
+means limited to only these applications).
 
 %description -l pl
-DocBook DTD jest zestawem definicji dokumentów XML/SGML przeznaczonych do
-tworzenia dokumentacji technicznej. Stosowany jest do pisania podrêczników
-systemowych, instrukcji jak i wielu innych ciekawych rzeczy.
+DocBook DTD jest zestawem definicji dokumentów XML/SGML przeznaczonych
+do tworzenia dokumentacji technicznej. Stosowany jest do pisania
+podrêczników systemowych, instrukcji jak i wielu innych ciekawych
+rzeczy.
 
 %prep
 %setup -q -c
