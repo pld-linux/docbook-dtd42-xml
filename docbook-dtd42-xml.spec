@@ -16,6 +16,7 @@ License:	Free
 Group:		Applications/Publishing/XML
 URL:		http://www.oasis-open.org/docbook/
 Source0:	http://www.oasis-open.org/docbook/xml/%{ver}/docbook-xml-%{ver}.zip
+# Source0-md5:	73fe50dfe74ca631c1602f558ed8961f
 BuildRequires:	unzip
 BuildRequires:	rpm-build >= 4.0.2-94
 BuildRequires:	/usr/bin/xmlcatalog
