@@ -2,8 +2,8 @@
 # todo:
 # - use XML ISO entities from sgml-common
 #
-Summary:	XML/SGML DocBook DTD 4.2
-Summary(pl):	XML/SGML DocBook DTD 4.2
+Summary:	DocBook XML 4.2 DTD
+Summary(pl):	DTD dla dokumentów DocBook XML 4.2
 %define ver	4.2
 Name:		docbook-dtd42-xml
 Version:	1.0
@@ -12,9 +12,9 @@ Epoch:		1
 Vendor:		OASIS
 License:	Free
 Group:		Applications/Publishing/XML
-URL:		http://www.oasis-open.org/docbook/
 Source0:	http://www.oasis-open.org/docbook/xml/%{ver}/docbook-xml-%{ver}.zip
 # Source0-md5:	73fe50dfe74ca631c1602f558ed8961f
+URL:		http://www.oasis-open.org/docbook/
 BuildRequires:	libxml2-progs
 BuildRequires:	rpm-build >= 4.0.2-94
 BuildRequires:	unzip
