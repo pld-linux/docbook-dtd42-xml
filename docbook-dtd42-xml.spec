@@ -9,7 +9,7 @@ Summary(pl):	XML/SGML DocBook DTD 4.2
 %define ver	4.2
 Name:		docbook-dtd42-xml
 Version:	1.0
-Release:	2
+Release:	3
 Vendor:		OASIS
 License:	Free
 Group:		Applications/Publishing/XML
@@ -28,15 +28,6 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define dtd_path		%{_datadir}/sgml/docbook/xml-dtd-%{ver}
 %define	xmlcat_file		%{dtd_path}/catalog.xml
 %define	sgmlcat_file	%{dtd_path}/catalog
-
-#
-# I would put following macros into /usr/lib/rpm/macros.sgml.
-#
-%define xmlcat_add()			/usr/bin/xmlcatalog --noout --add nextCatalog \"\" %1 /etc/xml/catalog
-%define xmlcat_del()			/usr/bin/xmlcatalog --noout --del %1 /etc/xml/catalog
-%define xmlcat_add_rewrite	    /usr/bin/xmlcatalog --noout --add rewriteSystem 
-%define sgmlcat_add()			/usr/bin/install-catalog --add %1 %2 > /dev/null
-%define sgmlcat_del()			/usr/bin/install-catalog --remove %1 %2 > /dev/null
 
 %description
 DocBook is an XML/SGML vocabulary particularly well suited to books and papers
@@ -57,18 +48,12 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{dtd_path}
 
 install *.{xml,dtd,mod} $RPM_BUILD_ROOT%{dtd_path}
+install *.ent $RPM_BUILD_ROOT%{_datadir}/sgml/docbook/xml-dtd-%{ver} || :
 cp -a ent $RPM_BUILD_ROOT%{dtd_path}
 
-cat << EOF >> $RPM_BUILD_ROOT%{sgmlcat_file}
-OVERRIDE YES
-  -- default decl --
-SGMLDECL "../../xml.dcl"
-  -- hacks for opensp --
-SYSTEM "file://%{_datadir}/sgml/docbook/xml-dtd-%{ver}/docbookx.dtd" "%{dtd_path}/docbookx.dtd"
-SYSTEM "http://www.oasis-open.org/docbook/xml/%{ver}/docbookx.dtd"   "%{dtd_path}/docbookx.dtd"
+%sgmlcat_fix $RPM_BUILD_ROOT%{sgmlcat_file} %{ver}
 
-EOF
-grep -v 'ISO ' docbook.cat >> $RPM_BUILD_ROOT%{sgmlcat_file}
+cat docbook.cat >> $RPM_BUILD_ROOT%{sgmlcat_file}
 
 %xmlcat_add_rewrite \
 	http://www.oasis-open.org/docbook/xml/%{ver} \
