@@ -1,5 +1,5 @@
-Summary:	Davenport Group DocBook DTD for technical documentation
-Summary(pl):	DocBook DTD przeznaczone do pisania dokumentacji technicznej
+Summary:	XML/SGML DocBook DTD 4.2
+Summary(pl):	XML/SGML DocBook DTD 4.2
 %define rver	4.2CR3
 %define ver	4.2
 Name:		docbook-dtd42-xml
@@ -33,13 +33,14 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define sgmlcat_fix()			echo "OVERRIDE YES" >> %1
 
 %description
-OASIS DocBook DTD for technical documentation.
+DocBook is an XML/SGML vocabulary particularly well suited to books and papers
+about computer hardware and software (though it is by no means limited to only
+these applications).                 
 
 %description -l pl
-DocBook DTD jest zestawem definicji dokumentów przeznaczonych do
-tworzenia dokumentacji programistycznej. Stosowany jest do pisania
-podrêczników systemowych, instrukcji technicznych jak i wielu innych
-ciekawych rzeczy.
+DocBook DTD jest zestawem definicji dokumentów XML/SGML przeznaczonych do
+tworzenia dokumentacji technicznej. Stosowany jest do pisania podrêczników
+systemowych, instrukcji jak i wielu innych ciekawych rzeczy.
 
 %prep
 %setup -q -c
@@ -54,25 +55,24 @@ install -d $RPM_BUILD_ROOT%{dtd_path}
 install *.{cat,dtd,mod,xml} $RPM_BUILD_ROOT%{dtd_path}
 cp -a ent $RPM_BUILD_ROOT%{dtd_path}
 
-%xmlcat_add_rewrite http://www.oasis-open.org/docbook/xml/%{rver} file://%{dtd_path} $RPM_BUILD_ROOT%{xmlcat_file}
+%xmlcat_add_rewrite \
+	http://www.oasis-open.org/docbook/xml/%{rver} \
+	file://%{dtd_path} \
+	$RPM_BUILD_ROOT%{xmlcat_file}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %post
 if [ "$1" = "1" ]; then
-    %sgmlcat_add %{sgmlcat_file}
-    
     %xmlcat_add %{xmlcat_file}
-    
+    %sgmlcat_add %{sgmlcat_file}
 fi
 
 %preun
 if [ "$1" = "0" ]; then
-    %sgmlcat_del %{sgmlcat_file}
-    
     %xmlcat_del %{xmlcat_file}
-
+    %sgmlcat_del %{sgmlcat_file}
 fi
 
 %files
