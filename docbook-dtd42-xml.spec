@@ -28,7 +28,7 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 #
 # I would put following macros into /usr/lib/rpm/macros.sgml.
 #
-%define xmlcat_add()			/usr/bin/xmlcatalog --noout --add nextCatalog "" %1 /etc/xml/catalog
+%define xmlcat_add()			/usr/bin/xmlcatalog --noout --add nextCatalog \"\" %1 /etc/xml/catalog
 %define xmlcat_del()			/usr/bin/xmlcatalog --noout --del %1 /etc/xml/catalog
 %define xmlcat_add_rewrite	    /usr/bin/xmlcatalog --noout --add rewriteSystem 
 %define sgmlcat_add()			/usr/bin/install-catalog --add %1 %2 > /dev/null
@@ -76,16 +76,20 @@ rm -rf $RPM_BUILD_ROOT
 
 %post
 if ! grep -q /etc/sgml/xml-docbook-%{ver}.cat /etc/sgml/catalog ; then
-    sgmlcat_add /etc/sgml/xml-docbook-%{ver}.cat %{sgmlcat_del}
+    %sgmlcat_add /etc/sgml/xml-docbook-%{ver}.cat %{sgmlcat_file}
+
 fi
-if ! grep -q %{dtdpath}/catalog.xml /etc/xml/catalog ; then
-    xmlcat_add %{dtdpath}/catalog.xml
+if ! grep -q %{dtd_path}/catalog.xml /etc/xml/catalog ; then
+    %xmlcat_add %{dtd_path}/catalog.xml
+
 fi
 
 %preun
 if [ "$1" = "0" ] ; then
-    sgmlcat_del /etc/sgml/xml-docbook-%{ver}.cat %{sgmlcat_file}
-    xmlcat_del %{dtdpath}/catalog.xml
+    %sgmlcat_del /etc/sgml/xml-docbook-%{ver}.cat %{sgmlcat_file}
+
+    %xmlcat_del %{dtd_path}/catalog.xml
+
 fi
 
 %files
