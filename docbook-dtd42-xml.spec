@@ -9,15 +9,19 @@ Summary(pl):	XML/SGML DocBook DTD 4.2
 %define ver	4.2
 Name:		docbook-dtd42-xml
 Version:	1.0
-Release:	1
+Release:	2
 Vendor:		OASIS
 License:	Free
 Group:		Applications/Publishing/XML
 URL:		http://www.oasis-open.org/docbook/
 Source0:	http://www.oasis-open.org/docbook/xml/%{ver}/docbook-xml-%{ver}.zip
 BuildRequires:  unzip
+BuildRequires:	/usr/bin/xmlcatalog
+PreReq:		libxml2
+PreReq:		sgml-common
+Requires(post,preun):   /usr/bin/install-catalog
 Requires(post,preun):   /usr/bin/xmlcatalog
-Requires:   libxml2-progs >= 2.4.17-6
+Requires:	libxml2-progs >= 2.4.17-6
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
