@@ -28,7 +28,7 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 #
 %define xmlcat_add()			/usr/bin/xmlcatalog --noout --add nextCatalog "" %1 /etc/xml/catalog
 %define xmlcat_del()			/usr/bin/xmlcatalog --noout --del %1 /etc/xml/catalog
-%define xmlcat_add_rewrite()	/usr/bin/xmlcatalog --noout --add rewriteSystem %1 %2 %3
+%define xmlcat_add_rewrite	/usr/bin/xmlcatalog --noout --add rewriteSystem 
 %define sgmlcat_add()			/usr/bin/install-catalog --add %1 /etc/sgml/catalog > /dev/null
 %define sgmlcat_del()			/usr/bin/install-catalog --remove %1 /etc/sgml/catalog > /dev/null
 %define sgmlcat_fix()			echo "OVERRIDE YES" >> %1
