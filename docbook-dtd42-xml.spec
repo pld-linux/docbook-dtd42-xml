@@ -9,7 +9,7 @@ Summary(pl):	XML/SGML DocBook DTD 4.2
 %define ver	4.2
 Name:		docbook-dtd42-xml
 Version:	1.0
-Release:	3
+Release:	4
 Epoch:		1
 Vendor:		OASIS
 License:	Free
