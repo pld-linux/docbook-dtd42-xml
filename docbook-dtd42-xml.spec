@@ -18,7 +18,11 @@ Requires(preun):/usr/bin/xmlcatalog
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define	catalog	%{_datadir}/sgml/docbook/xml-dtd-%{ver}/xmlcatalog
+%define	xml_catalog	%{_datadir}/sgml/docbook/xml-dtd-%{ver}/catalog.xml
+%define xml_cat_add /usr/bin/xmlcatalog --noout --add nextCatalog xhtml %1 /etc/xml/catalog
+%define xml_cat_del /usr/bin/xmlcatalog --noout --del %1 /etc/xml/catalog
+%define sgml_cat_add /usr/bin/install-catalog --add %1 %2 > /dev/null
+%define sgml_cat_del /usr/bin/install-catalog --remove %1 %2 > /dev/null
 
 %description
 OASIS DocBook DTD for technical documentation.
@@ -60,12 +64,12 @@ cp -a ent $RPM_BUILD_ROOT%{_datadir}/sgml/docbook/xml-dtd-%{ver}
 rm -rf $RPM_BUILD_ROOT
 
 %post
-/usr/bin/install-catalog --add /etc/sgml/xhtml-%{v_er}-%{version}-%{release}.cat /usr/share/sgml/html/xml-dtd-%{v_er}/xhtml.soc > /dev/null
-/usr/bin/xmlcatalog --noout --add nextCatalog xhtml %{catalog} /etc/xml/catalog
+%sgml_cat_add %{sgml_catalog_main} %{sgml_catalog}
+%xml_cat_add %{xml_catalog}
 
 %preun
-/usr/bin/install-catalog --remove /etc/sgml/xhtml-%{v_er}-%{version}-%{release}.cat /usr/share/sgml/html/xml-dtd-%{v_er}/xhtml.soc > /dev/null
-/usr/bin/xmlcatalog --noout --del %{catalog} /etc/xml/catalog
+%sgml_cat_del %{sgml_catalog_main} %{sgml_catalog}
+%xml_cat_del %{xml_catalog}
 
 %files
 %defattr(644,root,root,755)
