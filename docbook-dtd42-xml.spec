@@ -12,17 +12,25 @@ URL:		http://www.oasis-open.org/docbook/
 Source0:	http://www.oasis-open.org/docbook/xml/%{rver}/docbook-xml-%{rver}.zip
 BuildRequires:	unzip
 Requires(post):	/usr/bin/xmlcatalog
-#Requires(post):	sgml-common >= 0.5
+Requires(post):	sgml-common >= 0.5
 Requires(preun):/usr/bin/xmlcatalog
-#Requires(preun):sgml-common >= 0.5
+Requires(preun):sgml-common >= 0.5
 BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define	xml_catalog	%{_datadir}/sgml/docbook/xml-dtd-%{ver}/catalog.xml
-%define xml_cat_add /usr/bin/xmlcatalog --noout --add nextCatalog xhtml %1 /etc/xml/catalog
-%define xml_cat_del /usr/bin/xmlcatalog --noout --del %1 /etc/xml/catalog
-%define sgml_cat_add /usr/bin/install-catalog --add %1 %2 > /dev/null
-%define sgml_cat_del /usr/bin/install-catalog --remove %1 %2 > /dev/null
+%define dtd_path		%{_datadir}/sgml/docbook/xml-dtd-%{ver}
+%define	xmlcat_file		%{dtd_path}/catalog.xml
+%define	sgmlcat_file	%{dtd_path}/docbook.cat
+
+#
+# I would put following macros into /usr/lib/rpm/macros.sgml.
+#
+%define xmlcat_add			/usr/bin/xmlcatalog --noout --add nextCatalog "" %1 /etc/xml/catalog
+%define xmlcat_del			/usr/bin/xmlcatalog --noout --del %1 /etc/xml/catalog
+%define xmlcat_add_rewrite	/usr/bin/xmlcatalog --noout --add rewriteSystem %1 %2 %3
+%define sgmlcat_add			/usr/bin/install-catalog --add %1 %2 > /dev/null
+%define sgmlcat_del			/usr/bin/install-catalog --remove %1 %2 > /dev/null
+%define sgmlcat_fix			echo "OVERRIDE YES" >> %1
 
 %description
 OASIS DocBook DTD for technical documentation.
@@ -39,39 +47,32 @@ chmod -R a+rX *
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT%{_datadir}/sgml/docbook/xml-dtd-%{ver}
+install -d $RPM_BUILD_ROOT%{dtd_path}
 
-install *.{cat,dtd,mod} $RPM_BUILD_ROOT%{_datadir}/sgml/docbook/xml-dtd-%{ver}
-cp -a ent $RPM_BUILD_ROOT%{_datadir}/sgml/docbook/xml-dtd-%{ver}
+%sgmlcat_fix %{sgmlcat_file}
+install *.{cat,dtd,mod} $RPM_BUILD_ROOT%{dtd_path}
+cp -a ent $RPM_BUILD_ROOT%{dtd_path}
 
-# instal catalog file (nfy - waiting for wiget script)
-%{_bindir}/xmlcatalog --noout --add public \
-	"-//OASIS//DTD DocBook XML V%{ver}//EN" \
-	http://www.oasis-open.org/docbook/xml/%{ver}/docbookx.dtd \
-	/etc/xml/catalog
-%{_bindir}/xmlcatalog --noout --add rewriteSystem \
-	http://www.oasis-open.org/docbook/xml/%{ver}/ \
-	file://%{_datadir}/sgml/docbook/xml-dtd-%{ver}/ \
-	/etc/xml/catalog
-%{_bindir}/xmlcatalog --noout --del \
-	"-//OASIS//DTD DocBook XML V%{ver}//EN" \
-	/etc/xml/catalog
-%{_bindir}/xmlcatalog --noout --del \
-	http://www.oasis-open.org/docbook/xml/%{ver}/ \
-	/etc/xml/catalog
+# install catalog file (nfy - waiting for wiget script)
+sgmlcat2xmlcat < docbook.cat > %{xmlcat_file}
+%xmlcat_add_rewrite http://www.oasis-open.org/docbook/xml/%{ver} file://%{dtd_path} %{xmlcat_file}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %post
-%sgml_cat_add %{sgml_catalog_main} %{sgml_catalog}
-%xml_cat_add %{xml_catalog}
+if [ "$1" = "1" ]; then
+    %sgml_cat_add %{sgmlcat_file}
+    %xml_cat_add %{xmlcat_file}
+fi
 
 %preun
-%sgml_cat_del %{sgml_catalog_main} %{sgml_catalog}
-%xml_cat_del %{xml_catalog}
+if [ "$1" = "0" ]; then
+    %sgml_cat_del %{sgmlcat_file}
+    %xml_cat_del %{xmlcat_file}
+fi
 
 %files
 %defattr(644,root,root,755)
 %doc README ChangeLog
-%{_datadir}/sgml/docbook/*
+%{dtd_path}
