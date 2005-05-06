@@ -7,7 +7,7 @@ Summary(pl):	DTD dla dokumentów DocBook XML 4.2
 %define ver	4.2
 Name:		docbook-dtd42-xml
 Version:	1.0
-Release:	4
+Release:	5
 Epoch:		1
 Vendor:		OASIS
 License:	Free
