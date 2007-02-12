@@ -3,7 +3,7 @@
 # - use XML ISO entities from sgml-common
 #
 Summary:	DocBook XML 4.2 DTD
-Summary(pl.UTF-8):   DTD dla dokumentów DocBook XML 4.2
+Summary(pl.UTF-8):	DTD dla dokumentów DocBook XML 4.2
 %define ver	4.2
 Name:		docbook-dtd42-xml
 Version:	1.0
