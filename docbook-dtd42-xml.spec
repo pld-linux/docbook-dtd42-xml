@@ -7,7 +7,7 @@ Summary:	DocBook XML 4.2 DTD
 Summary(pl.UTF-8):	DTD dla dokumentów DocBook XML 4.2
 Name:		docbook-dtd42-xml
 Version:	1.0
-Release:	6
+Release:	7
 Epoch:		1
 License:	Free
 Group:		Applications/Publishing/XML
